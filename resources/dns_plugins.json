@@ -1,0 +1,197 @@
+[
+    {
+        "Name": "exoscale",
+        "Package": "github.com/caddyserver/dnsproviders/exoscale",
+        "Type": "dns"
+    },
+    {
+        "Name": "vscale",
+        "Package": "github.com/caddyserver/dnsproviders/vscale",
+        "Type": "dns"
+    },
+    {
+        "Name": "acmedns",
+        "Package": "github.com/caddyserver/dnsproviders/acmedns",
+        "Type": "dns"
+    },
+    {
+        "Name": "ovh",
+        "Package": "github.com/caddyserver/dnsproviders/ovh",
+        "Type": "dns"
+    },
+    {
+        "Name": "nifcloud",
+        "Package": "github.com/caddyserver/dnsproviders/nifcloud",
+        "Type": "dns"
+    },
+    {
+        "Name": "duckdns",
+        "Package": "github.com/caddyserver/dnsproviders/duckdns",
+        "Type": "dns"
+    },
+    {
+        "Name": "auroradns",
+        "Package": "github.com/caddyserver/dnsproviders/auroradns",
+        "Type": "dns"
+    },
+    {
+        "Name": "gandiv5",
+        "Package": "github.com/caddyserver/dnsproviders/gandiv5",
+        "Type": "dns"
+    },
+    {
+        "Name": "azure",
+        "Package": "github.com/caddyserver/dnsproviders/azure",
+        "Type": "dns"
+    },
+    {
+        "Name": "gandi",
+        "Package": "github.com/caddyserver/dnsproviders/gandi",
+        "Type": "dns"
+    },
+    {
+        "Name": "linode",
+        "Package": "github.com/caddyserver/dnsproviders/linode",
+        "Type": "dns"
+    },
+    {
+        "Name": "rackspace",
+        "Package": "github.com/caddyserver/dnsproviders/rackspace",
+        "Type": "dns"
+    },
+    {
+        "Name": "httpreq",
+        "Package": "github.com/caddyserver/dnsproviders/httpreq",
+        "Type": "dns"
+    },
+    {
+        "Name": "dnsimple",
+        "Package": "github.com/caddyserver/dnsproviders/dnsimple",
+        "Type": "dns"
+    },
+    {
+        "Name": "digitalocean",
+        "Package": "github.com/caddyserver/dnsproviders/digitalocean",
+        "Type": "dns"
+    },
+    {
+        "Name": "pdns",
+        "Package": "github.com/caddyserver/dnsproviders/pdns",
+        "Type": "dns"
+    },
+    {
+        "Name": "lightsail",
+        "Package": "github.com/caddyserver/dnsproviders/lightsail",
+        "Type": "dns"
+    },
+    {
+        "Name": "otc",
+        "Package": "github.com/caddyserver/dnsproviders/otc",
+        "Type": "dns"
+    },
+    {
+        "Name": "cloudflare",
+        "Package": "github.com/caddyserver/dnsproviders/cloudflare",
+        "Type": "dns"
+    },
+    {
+        "Name": "dnspod",
+        "Package": "github.com/caddyserver/dnsproviders/dnspod",
+        "Type": "dns"
+    },
+    {
+        "Name": "ns1",
+        "Package": "github.com/caddyserver/dnsproviders/ns1",
+        "Type": "dns"
+    },
+    {
+        "Name": "glesys",
+        "Package": "github.com/caddyserver/dnsproviders/glesys",
+        "Type": "dns"
+    },
+    {
+        "Name": "godaddy",
+        "Package": "github.com/caddyserver/dnsproviders/godaddy",
+        "Type": "dns"
+    },
+    {
+        "Name": "dyn",
+        "Package": "github.com/caddyserver/dnsproviders/dyn",
+        "Type": "dns"
+    },
+    {
+        "Name": "selectel",
+        "Package": "github.com/caddyserver/dnsproviders/selectel",
+        "Type": "dns"
+    },
+    {
+        "Name": "conoha",
+        "Package": "github.com/caddyserver/dnsproviders/conoha",
+        "Type": "dns"
+    },
+    {
+        "Name": "stackpath",
+        "Package": "github.com/caddyserver/dnsproviders/stackpath",
+        "Type": "dns"
+    },
+    {
+        "Name": "namedotcom",
+        "Package": "github.com/caddyserver/dnsproviders/namedotcom",
+        "Type": "dns"
+    },
+    {
+        "Name": "vultr",
+        "Package": "github.com/caddyserver/dnsproviders/vultr",
+        "Type": "dns"
+    },
+    {
+        "Name": "cloudxns",
+        "Package": "github.com/caddyserver/dnsproviders/cloudxns",
+        "Type": "dns"
+    },
+    {
+        "Name": "dnsmadeeasy",
+        "Package": "github.com/caddyserver/dnsproviders/dnsmadeeasy",
+        "Type": "dns"
+    },
+    {
+        "Name": "googlecloud",
+        "Package": "github.com/caddyserver/dnsproviders/googlecloud",
+        "Type": "dns"
+    },
+    {
+        "Name": "namecheap",
+        "Package": "github.com/caddyserver/dnsproviders/namecheap",
+        "Type": "dns"
+    },
+    {
+        "Name": "generic",
+        "Package": "github.com/caddyserver/dnsproviders/generic",
+        "Type": "dns"
+    },
+    {
+        "Name": "fastdns",
+        "Package": "github.com/caddyserver/dnsproviders/fastdns",
+        "Type": "dns"
+    },
+    {
+        "Name": "rfc2136",
+        "Package": "github.com/caddyserver/dnsproviders/rfc2136",
+        "Type": "dns"
+    },
+    {
+        "Name": "linodev4",
+        "Package": "github.com/caddyserver/dnsproviders/linodev4",
+        "Type": "dns"
+    },
+    {
+        "Name": "transip",
+        "Package": "github.com/caddyserver/dnsproviders/transip",
+        "Type": "dns"
+    },
+    {
+        "Name": "route53",
+        "Package": "github.com/caddyserver/dnsproviders/route53",
+        "Type": "dns"
+    }
+]

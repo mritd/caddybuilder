@@ -1,0 +1,192 @@
+[
+    {
+        "Name": "supervisor",
+        "Package": "github.com/lucaslorentz/caddy-supervisor",
+        "Type": "http"
+    },
+    {
+        "Name": "realip",
+        "Package": "github.com/captncraig/caddy-realip",
+        "Type": "http"
+    },
+    {
+        "Name": "git",
+        "Package": "github.com/abiosoft/caddy-git",
+        "Type": "http"
+    },
+    {
+        "Name": "proxyprotocol",
+        "Package": "github.com/mastercactapus/caddy-proxyprotocol",
+        "Type": "http"
+    },
+    {
+        "Name": "locale",
+        "Package": "github.com/simia-tech/caddy-locale",
+        "Type": "http"
+    },
+    {
+        "Name": "cache",
+        "Package": "github.com/nicolasazrak/caddy-cache",
+        "Type": "http"
+    },
+    {
+        "Name": "minify",
+        "Package": "github.com/hacdias/caddy-minify",
+        "Type": "http"
+    },
+    {
+        "Name": "geoip",
+        "Package": "github.com/kodnaplakal/caddy-geoip",
+        "Type": "http"
+    },
+    {
+        "Name": "authz",
+        "Package": "github.com/casbin/caddy-authz",
+        "Type": "http"
+    },
+    {
+        "Name": "filter",
+        "Package": "github.com/echocat/caddy-filter",
+        "Type": "http"
+    },
+    {
+        "Name": "ipfilter",
+        "Package": "github.com/pyed/ipfilter",
+        "Type": "http"
+    },
+    {
+        "Name": "ratelimit",
+        "Package": "github.com/xuqingfeng/caddy-rate-limit",
+        "Type": "http"
+    },
+    {
+        "Name": "expires",
+        "Package": "github.com/epicagency/caddy-expires",
+        "Type": "http"
+    },
+    {
+        "Name": "forwardproxy",
+        "Package": "github.com/caddyserver/forwardproxy",
+        "Type": "http"
+    },
+    {
+        "Name": "cors",
+        "Package": "github.com/captncraig/cors/caddy",
+        "Type": "http"
+    },
+    {
+        "Name": "s3browser",
+        "Package": "github.com/techknowlogick/caddy-s3browser",
+        "Type": "http"
+    },
+    {
+        "Name": "nobots",
+        "Package": "github.com/Xumeiquer/nobots",
+        "Type": "http"
+    },
+    {
+        "Name": "login",
+        "Package": "github.com/tarent/loginsrv/caddy",
+        "Type": "http"
+    },
+    {
+        "Name": "reauth",
+        "Package": "github.com/freman/caddy-reauth",
+        "Type": "http"
+    },
+    {
+        "Name": "extauth",
+        "Package": "github.com/BTBurke/caddy-extauth",
+        "Type": "http"
+    },
+    {
+        "Name": "jwt",
+        "Package": "github.com/BTBurke/caddy-jwt",
+        "Type": "http"
+    },
+    {
+        "Name": "jsonp",
+        "Package": "github.com/pschlump/caddy-jsonp",
+        "Type": "http"
+    },
+    {
+        "Name": "upload",
+        "Package": "blitznote.com/src/caddy.upload",
+        "Type": "http"
+    },
+    {
+        "Name": "multipass",
+        "Package": "github.com/namsral/multipass/caddy",
+        "Type": "http"
+    },
+    {
+        "Name": "datadog",
+        "Package": "github.com/payintech/caddy-datadog",
+        "Type": "http"
+    },
+    {
+        "Name": "prometheus",
+        "Package": "github.com/miekg/caddy-prometheus",
+        "Type": "http"
+    },
+    {
+        "Name": "pubsub",
+        "Package": "github.com/jung-kurt/caddy-pubsub",
+        "Type": "http"
+    },
+    {
+        "Name": "cgi",
+        "Package": "github.com/jung-kurt/caddy-cgi",
+        "Type": "http"
+    },
+    {
+        "Name": "filebrowser",
+        "Package": "github.com/filebrowser/caddy",
+        "Type": "http"
+    },
+    {
+        "Name": "webdav",
+        "Package": "github.com/hacdias/caddy-webdav",
+        "Type": "http"
+    },
+    {
+        "Name": "mailout",
+        "Package": "github.com/SchumacherFM/mailout",
+        "Type": "http"
+    },
+    {
+        "Name": "awses",
+        "Package": "github.com/miquella/caddy-awses",
+        "Type": "http"
+    },
+    {
+        "Name": "awslambda",
+        "Package": "github.com/coopernurse/caddy-awslambda",
+        "Type": "http"
+    },
+    {
+        "Name": "grpc",
+        "Package": "github.com/pieterlouw/caddy-grpc",
+        "Type": "http"
+    },
+    {
+        "Name": "gopkg",
+        "Package": "github.com/zikes/gopkg",
+        "Type": "http"
+    },
+    {
+        "Name": "restic",
+        "Package": "github.com/restic/caddy",
+        "Type": "http"
+    },
+    {
+        "Name": "wkd",
+        "Package": "github.com/emersion/caddy-wkd",
+        "Type": "http"
+    },
+    {
+        "Name": "dyndns",
+        "Package": "github.com/linkonoid/caddy-dyndns",
+        "Type": "http"
+    }
+]

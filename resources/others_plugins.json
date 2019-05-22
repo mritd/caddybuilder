@@ -1,0 +1,22 @@
+[
+    {
+        "Name": "net",
+        "Package": "github.com/pieterlouw/caddy-net/caddynet",
+        "Type": "server"
+    },
+    {
+        "Name": "dns",
+        "Package": "github.com/coredns/coredns/core/dnsserver",
+        "Type": "server"
+    },
+    {
+        "Name": "docker",
+        "Package": "github.com/lucaslorentz/caddy-docker-proxy/plugin",
+        "Type": "caddyfile"
+    },
+    {
+        "Name": "service",
+        "Package": "github.com/hacdias/caddy-service",
+        "Type": "hook"
+    }
+]
