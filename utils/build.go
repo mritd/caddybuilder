@@ -20,7 +20,7 @@ func Build(out string) error {
 	cmd := exec.Command("go", "build", "-o", out)
 	cmd.Dir = filepath.Join(GetCaddyRepoPath(), "caddy")
 	cmd.Env = append(cmd.Env, os.Environ()...)
-	cmd.Env = append(cmd.Env, "GO111MODULE=on")
+	cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+GetGoPath())
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()

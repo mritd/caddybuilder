@@ -27,8 +27,16 @@ func GetGoPath() string {
 		CheckAndExit(err)
 		goPath = filepath.Join(home, "gopath")
 		logrus.Warnf("GOPATH not exist, will auto create to [%s]", goPath)
-		err = os.Mkdir(goPath, 0755)
-		CheckAndExit(err)
+		_, err = os.Stat(goPath)
+		if err != nil {
+			if os.IsNotExist(err) {
+				err = os.MkdirAll(goPath, 0755)
+				CheckAndExit(err)
+			} else {
+				CheckAndExit(err)
+			}
+		}
+
 	}
 	return goPath
 }
