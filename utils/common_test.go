@@ -1,6 +1,20 @@
 package utils
 
-import "testing"
+import (
+	"errors"
+	"testing"
+)
+
+func TestCheckAndExit(t *testing.T) {
+	defer func() {
+		if r := recover(); r != nil {
+			t.Log(r)
+		} else {
+			t.Fatal("error check failed")
+		}
+	}()
+	CheckAndExit(errors.New("this is a test error"))
+}
 
 func TestCheckGoCommand(t *testing.T) {
 	t.Log(CheckGoCommand())
