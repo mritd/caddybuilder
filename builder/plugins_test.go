@@ -11,6 +11,13 @@ func TestFind(t *testing.T) {
 	}
 }
 
+func TestMerge(t *testing.T) {
+	err := Merge("../resources/other_plugins.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestGenerateCode(t *testing.T) {
 	err := GenerateCode("geoip", "authz", "ipfilter")
 	if err != nil {

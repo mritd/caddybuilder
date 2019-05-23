@@ -14,7 +14,7 @@ import ({{ range . }}
 `
 
 var PluginMap = make(map[string]Plugin)
-var PluginJsonFiles = []string{"dns_plugins.json", "http_plugins.json", "others_plugins.json"}
+var PluginJsonFiles = []string{"dns_plugins.json", "http_plugins.json", "other_plugins.json"}
 
 var Tag string
 var PluginList string
