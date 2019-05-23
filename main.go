@@ -58,6 +58,11 @@ A simple build tool for caddy`,
 		err = builder.GenerateCode(ps...)
 		utils.CheckAndExit(err)
 
+		// patch go mod dependencies
+		logrus.Info("patch go mod...")
+		err = builder.PatchDep()
+		utils.CheckAndExit(err)
+
 		// init go mod dependencies
 		logrus.Info("init go mod...")
 		err = builder.InitDep(ps...)
@@ -74,9 +79,10 @@ A simple build tool for caddy`,
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&conf.Tag, "tag", "t", "v1.0.0", "caddy tag")
-	rootCmd.PersistentFlags().StringVarP(&conf.PluginList, "plugins", "p", "realip,cache,ipfilter", "comma separated list of caddy builder")
+	rootCmd.PersistentFlags().StringVarP(&conf.PluginList, "plugins", "p", "all", "comma separated list of caddy builder")
 	rootCmd.PersistentFlags().StringVarP(&conf.OutPut, "output", "o", "", "caddy binary output path")
 	rootCmd.PersistentFlags().StringVarP(&conf.ExtJson, "extjson", "j", "", "extended caddy plugins json file")
+	rootCmd.PersistentFlags().StringVarP(&conf.ModPatch, "modpatch", "m", "", "custom go mod command file for handling special dependencies")
 	rootCmd.PersistentFlags().BoolVarP(&conf.Debug, "debug", "", false, "debug mode")
 }
 

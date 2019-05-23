@@ -9,6 +9,13 @@ func TestInitDep(t *testing.T) {
 	}
 }
 
+func TestPatchDep(t *testing.T) {
+	err := PatchDep()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestBuild(t *testing.T) {
 	err := Build("./caddy")
 	if err != nil {
