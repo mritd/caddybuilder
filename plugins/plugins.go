@@ -52,7 +52,25 @@ func init() {
 	})
 }
 
-func GeneratePluginsCode(plugins []string) error {
+func FindPlugins(names ...string) []Plugin {
+	var ps []Plugin
+	for _, name := range names {
+		p, ok := Plugins[strings.ToLower(name)]
+		if !ok {
+			logrus.Errorf("could not found [%s] plugin", name)
+		} else {
+			ps = append(ps, p)
+		}
+	}
+	return ps
+}
+
+func GeneratePluginsCode(names ...string) error {
+
+	if len(names) == 0 {
+		logrus.Warn("no plugin name specified, skip generate plugins code!")
+		return nil
+	}
 
 	pluginCodeDir := filepath.Join(utils.GetCaddyRepoPath(), "caddybuilder")
 	err := os.RemoveAll(pluginCodeDir)
@@ -75,16 +93,7 @@ func GeneratePluginsCode(plugins []string) error {
 	}
 	defer func() { _ = targetCodeFile.Close() }()
 
-	var ps []Plugin
-	for _, pname := range plugins {
-		p, ok := Plugins[strings.ToLower(pname)]
-		if !ok {
-			logrus.Panicf("could not found [%s] plugin", pname)
-		}
-		ps = append(ps, p)
-	}
-
-	err = tpl.Execute(targetCodeFile, ps)
+	err = tpl.Execute(targetCodeFile, FindPlugins(names...))
 	if err != nil {
 		return err
 	}
