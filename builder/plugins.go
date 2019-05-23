@@ -82,7 +82,7 @@ func Merge(extJson string) error {
 	for _, plugin := range tmpPlugins {
 		_, ok := conf.PluginMap[strings.ToLower(plugin.Name)]
 		if ok {
-			logrus.Warnf("plugin [%s] already exist, skip!")
+			logrus.Warnf("plugin [%s] already exist, skip!", plugin.Name)
 			continue
 		}
 		conf.PluginMap[strings.ToLower(plugin.Name)] = plugin

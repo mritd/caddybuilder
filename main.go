@@ -48,6 +48,7 @@ A simple build tool for caddy`,
 
 		// merge plugin map
 		if conf.ExtJson != "" {
+			logrus.Info("use extended plugins json...")
 			err = builder.Merge(conf.ExtJson)
 			utils.CheckAndExit(err)
 		}
