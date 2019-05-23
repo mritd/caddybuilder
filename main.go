@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/mritd/caddybuilder/config"
+	"github.com/mritd/caddybuilder/conf"
 
 	"github.com/mritd/caddybuilder/builder"
 
@@ -40,11 +40,17 @@ A simple build tool for caddy`,
 
 		// clone caddy
 		logrus.Info("clone caddy...")
-		err := utils.InitCaddyRepo(config.Tag)
+		err := utils.InitCaddyRepo(conf.Tag)
 		utils.CheckAndExit(err)
 
-		// get builder list
-		ps := strings.Split(config.PluginList, ",")
+		// get plugin list
+		ps := strings.Split(conf.PluginList, ",")
+
+		// merge plugin map
+		if conf.ExtJson != "" {
+			err = builder.Merge(conf.ExtJson)
+			utils.CheckAndExit(err)
+		}
 
 		// generate builder code
 		logrus.Info("generate plugins code...")
@@ -58,7 +64,7 @@ A simple build tool for caddy`,
 
 		// build
 		logrus.Info("building...")
-		err = builder.Build(config.OutPut)
+		err = builder.Build(conf.OutPut)
 		utils.CheckAndExit(err)
 
 		logrus.Infof("success!")
@@ -66,16 +72,16 @@ A simple build tool for caddy`,
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&config.Tag, "tag", "t", "v1.0.0", "caddy tag")
-	rootCmd.PersistentFlags().StringVarP(&config.PluginList, "plugins", "p", "realip,cache,ipfilter", "comma separated list of caddy builder")
-	rootCmd.PersistentFlags().StringVarP(&config.OutPut, "output", "o", "", "caddy binary output path")
-	rootCmd.PersistentFlags().StringVarP(&config.PluginsJson, "pluginsjson", "j", "", "extended caddy plugin list json file")
-	rootCmd.PersistentFlags().BoolVarP(&config.Debug, "debug", "", false, "debug mode")
+	rootCmd.PersistentFlags().StringVarP(&conf.Tag, "tag", "t", "v1.0.0", "caddy tag")
+	rootCmd.PersistentFlags().StringVarP(&conf.PluginList, "plugins", "p", "realip,cache,ipfilter", "comma separated list of caddy builder")
+	rootCmd.PersistentFlags().StringVarP(&conf.OutPut, "output", "o", "", "caddy binary output path")
+	rootCmd.PersistentFlags().StringVarP(&conf.ExtJson, "extjson", "j", "", "extended caddy plugins json file")
+	rootCmd.PersistentFlags().BoolVarP(&conf.Debug, "debug", "", false, "debug mode")
 }
 
 func initLog() {
 
-	if config.Debug {
+	if conf.Debug {
 		logrus.SetLevel(logrus.DebugLevel)
 	}
 

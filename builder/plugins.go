@@ -1,11 +1,14 @@
 package builder
 
 import (
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"sync"
 	"text/template"
+
+	"github.com/mritd/caddybuilder/conf"
 
 	"github.com/mritd/caddybuilder/utils"
 
@@ -14,30 +17,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const pluginCodeTpl = `package caddymain
-
-import ({{ range . }}
-	_ "{{ .Package }}"{{ end }}
-)
-`
-
-type Plugin struct {
-	Name    string
-	Package string
-	Type    string
-}
-
-var jsonFiles = []string{"dns_plugins.json", "http_plugins.json", "others_plugins.json"}
 var initPluginOnce sync.Once
-
-var Plugins = make(map[string]Plugin)
 
 func init() {
 	initPluginOnce.Do(func() {
-		var tmpPlugins []Plugin
+		var tmpPlugins []conf.Plugin
 		box := packr.New("resources", "../resources")
 
-		for _, j := range jsonFiles {
+		for _, j := range conf.PluginJsonFiles {
 
 			bs, err := box.Find(j)
 			utils.CheckAndExit(err)
@@ -46,14 +33,14 @@ func init() {
 
 			for _, p := range tmpPlugins {
 				logrus.Debugf("load plugin [%s]", p.Name)
-				Plugins[strings.ToLower(p.Name)] = p
+				conf.PluginMap[strings.ToLower(p.Name)] = p
 			}
 		}
 	})
 }
 
-func Find(names ...string) []Plugin {
-	var ps []Plugin
+func Find(names ...string) []conf.Plugin {
+	var ps []conf.Plugin
 
 	if len(names) == 0 {
 		logrus.Warn("no plugin name specified, skip find builder!")
@@ -61,12 +48,12 @@ func Find(names ...string) []Plugin {
 	}
 
 	if len(names) == 1 && names[0] == "all" {
-		for _, v := range Plugins {
+		for _, v := range conf.PluginMap {
 			ps = append(ps, v)
 		}
 	} else {
 		for _, name := range names {
-			p, ok := Plugins[strings.ToLower(name)]
+			p, ok := conf.PluginMap[strings.ToLower(name)]
 			if !ok {
 				logrus.Errorf("could not found [%s] plugin", name)
 			} else {
@@ -78,6 +65,32 @@ func Find(names ...string) []Plugin {
 	return ps
 }
 
+func Merge(extJson string) error {
+
+	var tmpPlugins []conf.Plugin
+
+	bs, err := ioutil.ReadFile(extJson)
+	if err != nil {
+		return err
+	}
+
+	err = jsoniter.Unmarshal(bs, &tmpPlugins)
+	if err != nil {
+		return err
+	}
+
+	for _, plugin := range tmpPlugins {
+		_, ok := conf.PluginMap[strings.ToLower(plugin.Name)]
+		if ok {
+			logrus.Warnf("plugin [%s] already exist, skip!")
+			continue
+		}
+		conf.PluginMap[strings.ToLower(plugin.Name)] = plugin
+		logrus.Infof("added plugin [%s]", plugin.Name)
+	}
+	return nil
+}
+
 func GenerateCode(names ...string) error {
 
 	if len(names) == 0 {
@@ -87,7 +100,7 @@ func GenerateCode(names ...string) error {
 
 	pluginCodeDir := filepath.Join(utils.GetCaddyRepoPath(), "caddy", "caddymain")
 
-	tpl, err := template.New("").Parse(pluginCodeTpl)
+	tpl, err := template.New("").Parse(conf.PluginCodeTpl)
 	if err != nil {
 		return err
 	}

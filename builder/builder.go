@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/mritd/caddybuilder/config"
+	"github.com/mritd/caddybuilder/conf"
 
 	"github.com/sirupsen/logrus"
 
@@ -24,7 +24,7 @@ func InitDep(names ...string) error {
 		cmd.Dir = utils.GetCaddyRepoPath()
 		cmd.Env = append(cmd.Env, os.Environ()...)
 		cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+utils.GetGoPath())
-		if config.Debug {
+		if conf.Debug {
 			cmd.Stdout = os.Stdout
 			cmd.Stderr = os.Stderr
 		}
