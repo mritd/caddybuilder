@@ -16,8 +16,11 @@ func CheckAndExit(err error) {
 	}
 }
 
-func CheckGoCommand() bool {
-	return exec.Command("go", "version").Run() == nil
+func CheckCommand(cmd ...string) bool {
+	if len(cmd) == 0 {
+		logrus.Fatal("command is empty!")
+	}
+	return exec.Command(cmd[0], cmd[1:]...).Run() == nil
 }
 
 func GetGoPath() string {

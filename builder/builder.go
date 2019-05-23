@@ -1,4 +1,4 @@
-package utils
+package builder
 
 import (
 	"os"
@@ -7,24 +7,30 @@ import (
 	"runtime"
 
 	"github.com/sirupsen/logrus"
+
+	"github.com/mritd/caddybuilder/utils"
 )
 
-func InitDep(packages ...string) {
-	if len(packages) == 0 {
+func InitDep(names ...string) error {
+	if len(names) == 0 {
 		logrus.Warn("no package specified, skip init dependencies!")
-		return
+		return nil
 	}
 
-	for _, p := range packages {
-		cmd := exec.Command("go", "get", p)
-		cmd.Dir = GetCaddyRepoPath()
+	for _, p := range Find(names...) {
+		cmd := exec.Command("go", "get", p.Package)
+		cmd.Dir = utils.GetCaddyRepoPath()
 		cmd.Env = append(cmd.Env, os.Environ()...)
-		cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+GetGoPath())
+		cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+utils.GetGoPath())
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		err := cmd.Run()
-		CheckAndExit(err)
+		if err != nil {
+			return err
+		}
 	}
+
+	return nil
 }
 
 func Build(out string) error {
@@ -38,9 +44,9 @@ func Build(out string) error {
 	}
 
 	cmd := exec.Command("go", "build", "-o", out)
-	cmd.Dir = filepath.Join(GetCaddyRepoPath(), "caddy")
+	cmd.Dir = filepath.Join(utils.GetCaddyRepoPath(), "caddy")
 	cmd.Env = append(cmd.Env, os.Environ()...)
-	cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+GetGoPath())
+	cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+utils.GetGoPath())
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()

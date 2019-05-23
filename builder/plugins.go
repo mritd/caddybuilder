@@ -1,4 +1,4 @@
-package plugins
+package builder
 
 import (
 	"os"
@@ -52,23 +52,36 @@ func init() {
 	})
 }
 
-func FindPlugins(names ...string) []Plugin {
+func Find(names ...string) []Plugin {
 	var ps []Plugin
-	for _, name := range names {
-		p, ok := Plugins[strings.ToLower(name)]
-		if !ok {
-			logrus.Errorf("could not found [%s] plugin", name)
-		} else {
-			ps = append(ps, p)
+
+	if len(names) == 0 {
+		logrus.Warn("no plugin name specified, skip find builder!")
+		return ps
+	}
+
+	if len(names) == 1 && names[0] == "all" {
+		for _, v := range Plugins {
+			ps = append(ps, v)
+		}
+	} else {
+		for _, name := range names {
+			p, ok := Plugins[strings.ToLower(name)]
+			if !ok {
+				logrus.Errorf("could not found [%s] plugin", name)
+			} else {
+				ps = append(ps, p)
+			}
 		}
 	}
+
 	return ps
 }
 
-func GeneratePluginsCode(names ...string) error {
+func GenerateCode(names ...string) error {
 
 	if len(names) == 0 {
-		logrus.Warn("no plugin name specified, skip generate plugins code!")
+		logrus.Warn("no plugin name specified, skip generate builder code!")
 		return nil
 	}
 
@@ -79,13 +92,13 @@ func GeneratePluginsCode(names ...string) error {
 		return err
 	}
 
-	targetCodeFile, err := os.OpenFile(filepath.Join(pluginCodeDir, "plugins.go"), os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0644)
+	targetCodeFile, err := os.OpenFile(filepath.Join(pluginCodeDir, "builder.go"), os.O_CREATE|os.O_TRUNC|os.O_RDWR, 0644)
 	if err != nil {
 		return err
 	}
 	defer func() { _ = targetCodeFile.Close() }()
 
-	err = tpl.Execute(targetCodeFile, FindPlugins(names...))
+	err = tpl.Execute(targetCodeFile, Find(names...))
 	if err != nil {
 		return err
 	}

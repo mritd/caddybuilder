@@ -17,7 +17,7 @@ func TestCheckAndExit(t *testing.T) {
 }
 
 func TestCheckGoCommand(t *testing.T) {
-	t.Log(CheckGoCommand())
+	t.Log(CheckCommand("go", "version"))
 }
 
 func TestGetGoPath(t *testing.T) {
