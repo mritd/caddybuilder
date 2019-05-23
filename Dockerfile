@@ -23,7 +23,7 @@ FROM golang:1.12.5-alpine3.9 AS dist
 LABEL maintainer="mritd <mritd@linux.com>"
 
 RUN apk upgrade \
-    && apk add bash --no-cache
+    && apk add bash git --no-cache
 
 COPY --from=builder /go/bin/caddybuilder /usr/bin/caddybuilder
 
