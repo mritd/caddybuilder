@@ -2,10 +2,7 @@ package utils
 
 import (
 	"os"
-
-	"gopkg.in/src-d/go-git.v4/plumbing"
-
-	"gopkg.in/src-d/go-git.v4"
+	"os/exec"
 )
 
 const CaddyRepoAddr = "https://github.com/mholt/caddy.git"
@@ -20,13 +17,26 @@ func InitCaddyRepo(tag string) error {
 		return err
 	}
 
-	_, err = git.PlainClone(repoPath, false, &git.CloneOptions{
-		URL:           CaddyRepoAddr,
-		Progress:      os.Stdout,
-		ReferenceName: plumbing.NewTagReferenceName(tag),
-	})
+	cmd := exec.Command("git", "clone", CaddyRepoAddr, repoPath)
+	cmd.Env = append(cmd.Env, os.Environ()...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err = cmd.Run()
 	if err != nil {
 		return err
 	}
+
+	cmd = exec.Command("git", "checkout", "tags/"+tag, "-b", tag)
+	cmd.Dir = repoPath
+	cmd.Env = append(cmd.Env, os.Environ()...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err = cmd.Run()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
