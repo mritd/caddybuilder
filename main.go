@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"strings"
+
+	"github.com/mritd/caddybuilder/config"
 
 	"github.com/mritd/caddybuilder/builder"
 
@@ -14,17 +17,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var tag string
-var pluginList string
-var outPut string
-var pluginsJson string
-
 var rootCmd = &cobra.Command{
 	Use:   "caddybuilder",
 	Short: "A simple build tool for caddy",
 	Long: `
 A simple build tool for caddy`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		// init log
+		initLog()
 
 		// check golang is install
 		logrus.Info("check go command...")
@@ -40,11 +41,11 @@ A simple build tool for caddy`,
 
 		// clone caddy
 		logrus.Info("clone caddy...")
-		err := utils.InitCaddyRepo(tag)
+		err := utils.InitCaddyRepo(config.Tag)
 		utils.CheckAndExit(err)
 
 		// get builder list
-		ps := strings.Split(pluginList, ",")
+		ps := strings.Split(config.PluginList, ",")
 
 		// generate builder code
 		logrus.Info("generate plugins code...")
@@ -58,18 +59,33 @@ A simple build tool for caddy`,
 
 		// build
 		logrus.Info("building...")
-		err = builder.Build(outPut)
+		err = builder.Build(config.OutPut)
 		utils.CheckAndExit(err)
 
-		logrus.Infof("build success!")
+		logrus.Infof("success!")
 	},
 }
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&tag, "tag", "t", "v1.0.0", "caddy tag")
-	rootCmd.PersistentFlags().StringVarP(&pluginList, "plugins", "p", "realip,cache,ipfilter", "comma separated list of caddy builder")
-	rootCmd.PersistentFlags().StringVarP(&outPut, "output", "o", "", "caddy binary output path")
-	rootCmd.PersistentFlags().StringVarP(&pluginsJson, "pluginsjson", "j", "", "extended caddy plugin list json file")
+	rootCmd.PersistentFlags().StringVarP(&config.Tag, "tag", "t", "v1.0.0", "caddy tag")
+	rootCmd.PersistentFlags().StringVarP(&config.PluginList, "plugins", "p", "realip,cache,ipfilter", "comma separated list of caddy builder")
+	rootCmd.PersistentFlags().StringVarP(&config.OutPut, "output", "o", "", "caddy binary output path")
+	rootCmd.PersistentFlags().StringVarP(&config.PluginsJson, "pluginsjson", "j", "", "extended caddy plugin list json file")
+	rootCmd.PersistentFlags().BoolVarP(&config.Debug, "debug", "", false, "debug mode")
+}
+
+func initLog() {
+
+	if config.Debug {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
+
+	logrus.SetFormatter(&logrus.TextFormatter{
+		FullTimestamp:   true,
+		TimestampFormat: "2006-01-02 15:04:05",
+	})
+
+	logrus.Infof("GOMAXPROCS: %d", runtime.NumCPU())
 }
 
 func main() {

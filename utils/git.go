@@ -3,6 +3,8 @@ package utils
 import (
 	"os"
 	"os/exec"
+
+	"github.com/mritd/caddybuilder/config"
 )
 
 const CaddyRepoAddr = "https://github.com/mholt/caddy.git"
@@ -18,9 +20,10 @@ func InitCaddyRepo(tag string) error {
 	}
 
 	cmd := exec.Command("git", "clone", CaddyRepoAddr, repoPath)
-	cmd.Env = append(cmd.Env, os.Environ()...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	if config.Debug {
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+	}
 
 	err = cmd.Run()
 	if err != nil {
@@ -29,9 +32,10 @@ func InitCaddyRepo(tag string) error {
 
 	cmd = exec.Command("git", "checkout", "tags/"+tag, "-b", tag)
 	cmd.Dir = repoPath
-	cmd.Env = append(cmd.Env, os.Environ()...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	if config.Debug {
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+	}
 
 	err = cmd.Run()
 	if err != nil {
