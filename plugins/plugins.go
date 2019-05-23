@@ -14,7 +14,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const pluginCodeTpl = `package caddybuilder
+const pluginCodeTpl = `package caddymain
 
 import ({{ range . }}
 	_ "{{ .Package }}"{{ end }}
@@ -72,15 +72,7 @@ func GeneratePluginsCode(names ...string) error {
 		return nil
 	}
 
-	pluginCodeDir := filepath.Join(utils.GetCaddyRepoPath(), "caddybuilder")
-	err := os.RemoveAll(pluginCodeDir)
-	if err != nil {
-		return err
-	}
-	err = os.MkdirAll(pluginCodeDir, 0755)
-	if err != nil {
-		return err
-	}
+	pluginCodeDir := filepath.Join(utils.GetCaddyRepoPath(), "caddy", "caddymain")
 
 	tpl, err := template.New("").Parse(pluginCodeTpl)
 	if err != nil {
