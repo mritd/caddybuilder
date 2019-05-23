@@ -5,7 +5,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 	"text/template"
 
 	"github.com/mritd/caddybuilder/conf"
@@ -17,26 +16,22 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var initPluginOnce sync.Once
-
 func init() {
-	initPluginOnce.Do(func() {
-		var tmpPlugins []conf.Plugin
-		box := packr.New("resources", "../resources")
+	var tmpPlugins []conf.Plugin
+	box := packr.New("resources", "../resources")
 
-		for _, j := range conf.PluginJsonFiles {
+	for _, j := range conf.PluginJsonFiles {
 
-			bs, err := box.Find(j)
-			utils.CheckAndExit(err)
-			err = jsoniter.Unmarshal(bs, &tmpPlugins)
-			utils.CheckAndExit(err)
+		bs, err := box.Find(j)
+		utils.CheckAndExit(err)
+		err = jsoniter.Unmarshal(bs, &tmpPlugins)
+		utils.CheckAndExit(err)
 
-			for _, p := range tmpPlugins {
-				logrus.Debugf("load plugin [%s]", p.Name)
-				conf.PluginMap[strings.ToLower(p.Name)] = p
-			}
+		for _, p := range tmpPlugins {
+			logrus.Debugf("load plugin [%s]", p.Name)
+			conf.PluginMap[strings.ToLower(p.Name)] = p
 		}
-	})
+	}
 }
 
 func Find(names ...string) []conf.Plugin {
