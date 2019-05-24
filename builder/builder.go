@@ -44,14 +44,14 @@ func InitDep(names ...string) error {
 
 func PatchDep() error {
 	box := packr.New("resources", "../resources")
-	patchStr, err := box.FindString("dns_mod_patch")
+	patchStr, err := box.FindString("mod_command")
 	if err != nil {
 		return err
 	}
 	cmdLines := strings.Split(patchStr, "\n")
 
-	if conf.ModPatch != "" {
-		f, err := os.Open(conf.ModPatch)
+	if conf.ModCmd != "" {
+		f, err := os.Open(conf.ModCmd)
 		if err != nil {
 			return err
 		}

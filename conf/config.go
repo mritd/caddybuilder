@@ -19,7 +19,7 @@ var PluginJsonFiles = []string{"dns_plugins.json", "http_plugins.json", "other_p
 var (
 	Tag        string
 	PluginList string
-	ModPatch   string
+	ModCmd     string
 	ExtJson    string
 	OutPut     string
 	Debug      bool

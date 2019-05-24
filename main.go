@@ -82,7 +82,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&conf.PluginList, "plugins", "p", "all", "comma separated list of caddy builder")
 	rootCmd.PersistentFlags().StringVarP(&conf.OutPut, "output", "o", "", "caddy binary output path")
 	rootCmd.PersistentFlags().StringVarP(&conf.ExtJson, "extjson", "j", "", "extended caddy plugins json file")
-	rootCmd.PersistentFlags().StringVarP(&conf.ModPatch, "modpatch", "m", "", "custom go mod command file for handling special dependencies")
+	rootCmd.PersistentFlags().StringVarP(&conf.ModCmd, "modcmd", "", "", "custom go mod command file for handling special dependencies")
 	rootCmd.PersistentFlags().BoolVarP(&conf.Debug, "debug", "", false, "debug mode")
 }
 
