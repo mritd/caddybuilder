@@ -101,6 +101,14 @@ func Build(out string) error {
 		}
 	}
 
+	if !filepath.IsAbs(out) {
+		pwd, err := os.Getwd()
+		if err != nil {
+			return err
+		}
+		out = filepath.Join(pwd, out)
+	}
+
 	cmd := exec.Command("go", "build", "-o", out)
 	cmd.Dir = filepath.Join(utils.GetCaddyRepoPath(), "caddy")
 	cmd.Env = append(cmd.Env, os.Environ()...)
