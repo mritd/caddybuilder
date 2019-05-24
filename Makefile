@@ -11,7 +11,6 @@ all:
 					-X 'main.CommitID=${COMMIT_SHA1}'"
 
 docker:
-	packr2
 	docker build -t mritd/caddybuilder:${BUILD_VERSION} .
 
 clean:
