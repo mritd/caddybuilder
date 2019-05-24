@@ -5,6 +5,8 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/mritd/caddybuilder/conf"
+
 	"github.com/mitchellh/go-homedir"
 
 	"github.com/sirupsen/logrus"
@@ -12,7 +14,11 @@ import (
 
 func CheckAndExit(err error) {
 	if err != nil {
-		logrus.Panic(err)
+		if conf.Debug {
+			logrus.Panic(err)
+		} else {
+			logrus.Fatal(err)
+		}
 	}
 }
 
@@ -29,7 +35,7 @@ func GetGoPath() string {
 		home, err := homedir.Dir()
 		CheckAndExit(err)
 		goPath = filepath.Join(home, "gopath")
-		logrus.Warnf("GOPATH not exist, will auto create to [%s]", goPath)
+		logrus.Warnf("GOPATH not set, will auto create to [%s]", goPath)
 		_, err = os.Stat(goPath)
 		if err != nil {
 			if os.IsNotExist(err) {
