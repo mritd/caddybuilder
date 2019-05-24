@@ -113,7 +113,9 @@ func Build(out string) error {
 	cmd.Dir = filepath.Join(utils.GetCaddyRepoPath(), "caddy")
 	cmd.Env = append(cmd.Env, os.Environ()...)
 	cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+utils.GetGoPath())
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	if conf.Debug {
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+	}
 	return cmd.Run()
 }
