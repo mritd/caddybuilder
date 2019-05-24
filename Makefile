@@ -4,7 +4,7 @@ COMMIT_SHA1     := $(shell git rev-parse HEAD)
 
 all:
 	packr2
-	gox -osarch="darwin/amd64 linux/386 linux/amd64" \
+	gox -osarch="darwin/amd64 linux/386 linux/amd64 windows/386 windows/amd64" \
 		-output="dist/{{.Dir}}_{{.OS}}_{{.Arch}}" \
 		-ldflags	"-X 'main.Version=${BUILD_VERSION}' \
 					-X 'main.BuildDate=${BUILD_DATE}' \
@@ -19,6 +19,13 @@ clean:
 
 install:
 	go install
+
+release: all
+	ghr -u mritd -t $(GITHUB_RELEASE_TOKEN) -replace -recreate --debug ${BUILD_VERSION} dist
+
+pre-release: all
+	ghr -u mritd -t $(GITHUB_RELEASE_TOKEN) -replace -recreate -prerelease --debug ${BUILD_VERSION} dist
+
 
 .PHONY : all release docker clean install
 
