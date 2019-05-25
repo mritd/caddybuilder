@@ -3,6 +3,7 @@ module github.com/mritd/caddybuilder
 go 1.12
 
 require (
+	github.com/emirpasic/gods v1.12.0
 	github.com/gobuffalo/genny v0.1.1 // indirect
 	github.com/gobuffalo/gogen v0.1.1 // indirect
 	github.com/gobuffalo/packr/v2 v2.2.0

@@ -11,6 +11,11 @@ func TestFind(t *testing.T) {
 	}
 }
 
+func TestSort(t *testing.T) {
+	ps := Sort()
+	t.Log(ps)
+}
+
 func TestMerge(t *testing.T) {
 	err := Merge("../resources/other_plugins.json")
 	if err != nil {

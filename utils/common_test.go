@@ -16,6 +16,12 @@ func TestCheckAndExit(t *testing.T) {
 	CheckAndExit(errors.New("this is a test error"))
 }
 
+func TestShortenString(t *testing.T) {
+	if ShortenString("12345678", 7) != "1234567" {
+		t.Fatal("test short string failed")
+	}
+}
+
 func TestCheckGoCommand(t *testing.T) {
 	t.Log(CheckCommand("go", "version"))
 }

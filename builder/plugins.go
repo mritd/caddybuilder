@@ -4,8 +4,11 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"text/template"
+
+	"github.com/emirpasic/gods/sets/treeset"
 
 	"github.com/mritd/caddybuilder/conf"
 
@@ -84,6 +87,26 @@ func Merge(extJson string) error {
 		logrus.Infof("added plugin [%s]", plugin.Name)
 	}
 	return nil
+}
+
+func Sort() conf.Plugins {
+
+	var plugins conf.Plugins
+
+	var pMap = make(map[string]conf.Plugins)
+	var pMapKeySet = treeset.NewWithStringComparator()
+	for _, v := range conf.PluginMap {
+		k := strings.ToLower(v.Type)
+		pMapKeySet.Add(k)
+		pMap[k] = append(pMap[k], v)
+	}
+
+	pMapKeySet.Each(func(index int, value interface{}) {
+		sort.Sort(pMap[value.(string)])
+		plugins = append(plugins, pMap[value.(string)]...)
+	})
+
+	return plugins
 }
 
 func GenerateCode(names ...string) error {

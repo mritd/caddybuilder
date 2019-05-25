@@ -22,6 +22,14 @@ func CheckAndExit(err error) {
 	}
 }
 
+func ShortenString(str string, n int) string {
+	if len(str) <= n {
+		return str
+	} else {
+		return str[:n]
+	}
+}
+
 func CheckCommand(cmd ...string) bool {
 	if len(cmd) == 0 {
 		logrus.Fatal("command is empty!")
