@@ -13,7 +13,7 @@ func TestFind(t *testing.T) {
 
 func TestSort(t *testing.T) {
 	ps := Sort()
-	t.Log(ps)
+	t.Log(ps.String())
 }
 
 func TestMerge(t *testing.T) {

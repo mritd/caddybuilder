@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"sort"
 	"strings"
 	"text/template"
 
@@ -14,28 +13,9 @@ import (
 
 	"github.com/mritd/caddybuilder/utils"
 
-	"github.com/gobuffalo/packr/v2"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
 )
-
-func init() {
-	var tmpPlugins []conf.Plugin
-	box := packr.New("resources", "../resources")
-
-	for _, j := range conf.PluginJsonFiles {
-
-		bs, err := box.Find(j)
-		utils.CheckAndExit(err)
-		err = jsoniter.Unmarshal(bs, &tmpPlugins)
-		utils.CheckAndExit(err)
-
-		for _, p := range tmpPlugins {
-			logrus.Debugf("load plugin [%s]", p.Name)
-			conf.PluginMap[strings.ToLower(p.Name)] = p
-		}
-	}
-}
 
 func Find(names ...string) []conf.Plugin {
 	var ps []conf.Plugin
@@ -46,12 +26,12 @@ func Find(names ...string) []conf.Plugin {
 	}
 
 	if len(names) == 1 && names[0] == "all" {
-		for _, v := range conf.PluginMap {
+		for _, v := range conf.PluginsMap {
 			ps = append(ps, v)
 		}
 	} else {
 		for _, name := range names {
-			p, ok := conf.PluginMap[strings.ToLower(name)]
+			p, ok := conf.PluginsMap[strings.ToLower(name)]
 			if !ok {
 				logrus.Errorf("could not found [%s] plugin", name)
 			} else {
@@ -78,33 +58,42 @@ func Merge(extJson string) error {
 	}
 
 	for _, plugin := range tmpPlugins {
-		_, ok := conf.PluginMap[strings.ToLower(plugin.Name)]
+		_, ok := conf.PluginsMap[strings.ToLower(plugin.Name)]
 		if ok {
 			logrus.Warnf("plugin [%s] already exist, skip!", plugin.Name)
 			continue
 		}
-		conf.PluginMap[strings.ToLower(plugin.Name)] = plugin
+		conf.PluginsMap[strings.ToLower(plugin.Name)] = plugin
 		logrus.Infof("added plugin [%s]", plugin.Name)
 	}
 	return nil
 }
 
-func Sort() conf.Plugins {
+func Sort() *treeset.Set {
 
-	var plugins conf.Plugins
+	var plugins = treeset.NewWith(func(a, b interface{}) int {
+		a1, b1 := a.(conf.Plugin), b.(conf.Plugin)
 
-	var pMap = make(map[string]conf.Plugins)
-	var pMapKeySet = treeset.NewWithStringComparator()
-	for _, v := range conf.PluginMap {
-		k := strings.ToLower(v.Type)
-		pMapKeySet.Add(k)
-		pMap[k] = append(pMap[k], v)
-	}
-
-	pMapKeySet.Each(func(index int, value interface{}) {
-		sort.Sort(pMap[value.(string)])
-		plugins = append(plugins, pMap[value.(string)]...)
+		switch {
+		case a1.Type > b1.Type:
+			return 1
+		case a1.Type < b1.Type:
+			return -1
+		default:
+			switch {
+			case a1.Name > b1.Name:
+				return 1
+			case a1.Name < b1.Name:
+				return -1
+			default:
+				return 0
+			}
+		}
 	})
+
+	for _, v := range conf.PluginsMap {
+		plugins.Add(v)
+	}
 
 	return plugins
 }

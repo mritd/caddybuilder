@@ -32,9 +32,10 @@ List plugins.`,
 
 		var plugins []struct{ Name, Type, Repo string }
 
-		for _, v := range builder.Sort() {
+		builder.Sort().Each(func(index int, value interface{}) {
+			v := value.(conf.Plugin)
 			plugins = append(plugins, struct{ Name, Type, Repo string }{Name: v.Name, Type: v.Type, Repo: v.Package})
-		}
+		})
 
 		var buf bytes.Buffer
 

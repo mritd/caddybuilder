@@ -9,8 +9,6 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/gobuffalo/packr/v2"
-
 	"github.com/mritd/caddybuilder/conf"
 
 	"github.com/sirupsen/logrus"
@@ -43,12 +41,6 @@ func InitDep(names ...string) error {
 }
 
 func PatchDep() error {
-	box := packr.New("resources", "../resources")
-	patchStr, err := box.FindString("mod_command")
-	if err != nil {
-		return err
-	}
-	cmdLines := strings.Split(patchStr, "\n")
 
 	if conf.ModCmd != "" {
 		f, err := os.Open(conf.ModCmd)
@@ -64,14 +56,14 @@ func PatchDep() error {
 				}
 				return err
 			} else {
-				cmdLines = append(cmdLines, strings.TrimSpace(line))
+				conf.GoModCmds = append(conf.GoModCmds, strings.TrimSpace(line))
 			}
 		}
 	}
 
 Patch:
 
-	for _, l := range cmdLines {
+	for _, l := range conf.GoModCmds {
 		cmds := strings.Fields(l)
 		if len(cmds) == 0 {
 			continue
@@ -81,7 +73,7 @@ Patch:
 		cmd.Dir = utils.GetCaddyRepoPath()
 		cmd.Env = append(cmd.Env, os.Environ()...)
 		cmd.Env = append(cmd.Env, "GO111MODULE=on", "GOPATH="+utils.GetGoPath())
-		err = cmd.Run()
+		err := cmd.Run()
 		if err != nil {
 			return err
 		}
