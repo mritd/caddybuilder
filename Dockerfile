@@ -12,8 +12,6 @@ RUN apk upgrade \
     && BUILD_VERSION=$(cat version) \
     && BUILD_DATE=$(date "+%F %T") \
     && COMMIT_SHA1=$(git rev-parse HEAD) \
-    && go install github.com/gobuffalo/packr/v2/packr2 \
-    && packr2 clean && packr2 \
     && go install -ldflags  "-X 'main.Version=${BUILD_VERSION}' \
                             -X 'main.BuildDate=${BUILD_DATE}' \
                             -X 'main.CommitID=${COMMIT_SHA1}'"
