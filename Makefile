@@ -16,7 +16,9 @@ clean:
 	rm -rf dist
 
 install:
-	go install
+	go install -ldflags	"-X 'main.Version=${BUILD_VERSION}' \
+						-X 'main.BuildDate=${BUILD_DATE}' \
+						-X 'main.CommitID=${COMMIT_SHA1}'"
 
 release: all
 	ghr -u mritd -t $(GITHUB_RELEASE_TOKEN) -replace -recreate --debug ${BUILD_VERSION} dist
